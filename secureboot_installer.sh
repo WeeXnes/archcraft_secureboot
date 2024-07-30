@@ -28,7 +28,7 @@ update_signature_cachyos(){
 add_cachyos_to_refind_config(){
   echo this needs to be run as root/sudo
   echo Adding Menu Entry for Cachy Kernel to refind.conf
-  echo "menuentry \"CachyOS\" {" >> /boot/efi/EFI/refind/refind.conf
+  echo "menuentry \"Archcraft (CachyOS)\" {" >> /boot/efi/EFI/refind/refind.conf
   echo "        icon    /EFI/refind/themes/refind-ambience/icons/os_arch.png" >> /boot/efi/EFI/refind/refind.conf
   echo "        volume  \"ROOT\"" >> /boot/efi/EFI/refind/refind.conf
   echo "        loader  /boot/vmlinuz-linux-cachyos-eevdf" >> /boot/efi/EFI/refind/refind.conf
