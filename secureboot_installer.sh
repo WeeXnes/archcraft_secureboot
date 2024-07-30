@@ -36,7 +36,6 @@ add_cachyos_to_refind_config(){
   echo "        options \"root=/dev/nvme0n1p2 rw  quiet splash loglevel=3 udev.log_level=3 vt.global_cursor_default=0 splash lsm=landlock,lockdown,yama,integrity,apparmor,bpf\"" >> /boot/efi/EFI/refind/refind.conf
   echo "}" >> /boot/efi/EFI/refind/refind.conf
   echo done
-  exit
 }
 
 install_theme(){
