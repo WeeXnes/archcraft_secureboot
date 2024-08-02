@@ -26,16 +26,21 @@ update_signature_cachyos(){
 }
 
 add_cachyos_to_refind_config(){
-  echo this needs to be run as root/sudo
-  echo Adding Menu Entry for Cachy Kernel to refind.conf
+  ROOTDRIVE=$(lsblk -nr -o NAME,MOUNTPOINT | grep ' /$' | awk '{print $1}')
+  BOOTOPTIONS=$(build/get_grub_options)
   echo "menuentry \"Archcraft (CachyOS)\" {" >> /boot/efi/EFI/refind/refind.conf
   echo "        icon    /EFI/refind/themes/refind-ambience/icons/os_arch.png" >> /boot/efi/EFI/refind/refind.conf
   echo "        volume  \"ROOT\"" >> /boot/efi/EFI/refind/refind.conf
   echo "        loader  /boot/vmlinuz-linux-cachyos-eevdf" >> /boot/efi/EFI/refind/refind.conf
   echo "        initrd  /boot/initramfs-linux-cachyos-eevdf.img" >> /boot/efi/EFI/refind/refind.conf
-  echo "        options \"root=/dev/nvme0n1p2 rw  quiet splash loglevel=3 udev.log_level=3 vt.global_cursor_default=0 splash lsm=landlock,lockdown,yama,integrity,apparmor,bpf\"" >> /boot/efi/EFI/refind/refind.conf
+  echo "        options \"root=/dev/$ROOTDRIVE $BOOTOPTIONS\"" >> /boot/efi/EFI/refind/refind.conf
   echo "}" >> /boot/efi/EFI/refind/refind.conf
   echo done
+}
+
+build_grubber_tool(){
+  cd get_grub_options
+  ./build.sh
 }
 
 install_theme(){
@@ -47,8 +52,12 @@ install_theme(){
 }
 
 
+ERRORMSG="unknown command, avaiable commands: install-secureboot, install-theme, update, update-cachy, setup-cachy"
 
-if [ $1 = "install-secureboot" ]; then
+
+if [ -z "$1" ];then
+  echo $ERRORMSG
+elif [ $1 = "install-secureboot" ]; then
   install_secureboot
 elif [ $1 = "install-theme" ]; then
   install_theme
@@ -57,7 +66,8 @@ elif [ $1 = "update" ]; then
 elif [ $1 = "update-cachy" ]; then
   update_signature_cachyos
 elif [ $1 = "setup-cachy" ]; then
-  add_cachyos_to_refind_config
+  build_grubber_tool
+  sudo bash -c "$(declare -f add_cachyos_to_refind_config); add_cachyos_to_refind_config"
 else
-  echo "unknown command, avaiable commands: install-secureboot, install-theme, update, update-cachy, setup-cachy"
+  echo $ERRORMSG
 fi
