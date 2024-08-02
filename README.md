@@ -35,3 +35,4 @@ for use with CachyOS, execute the following commands
 
 # sets up a boot entry in refind for CachyOS (needed, default config for Cachy doesnt boot)
 ./secureboot_installer.sh setup-cachy
+```
