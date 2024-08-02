@@ -48,8 +48,9 @@ install_theme(){
 
 
 
-if [ $1 = "install" ]; then
+if [ $1 = "install-secureboot" ]; then
   install_secureboot
+elif [ $1 = "install-theme" ]; then
   install_theme
 elif [ $1 = "update" ]; then
   update_signature_vanilla
@@ -58,5 +59,5 @@ elif [ $1 = "update-cachy" ]; then
 elif [ $1 = "setup-cachy" ]; then
   add_cachyos_to_refind_config
 else
-  echo "unknown command, avaiable commands: install, update, update-cachy, setup-cachy"
+  echo "unknown command, avaiable commands: install-secureboot, install-theme, update, update-cachy, setup-cachy"
 fi
